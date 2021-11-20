@@ -20,6 +20,20 @@ local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 local ProtGui = Instance.new("ScreenGui")
 
+if syn or (identifyexecutor and identifyexecutor() == "ScriptWare") then
+	rconsoleprint('a')
+	local OldFindcall -- i hate you bluwu (sorry)
+	OldFindcall = hookmetamethod(game, "__namecall", function(...)
+		local Args = {...}
+		local Method = getnamecallmethod()
+
+		if (Method == "FindService" and Args[1] == game and not checkcaller() and (Args[2] == "VirtualInputManager" or Args[2] == "VirtualUser")) then
+			return nil
+		end 
+		return OldFindcall(...)
+	end)
+end
+
 if syn then
 	syn.protect_gui(ProtGui)
 	syn.protect_gui(CoreGui.RobloxGui.NotificationFrame)
@@ -1734,9 +1748,7 @@ end)
 FlightSpeed:SetState(3)
 
 coroutine.wrap(function()
-	while true do
-		game:GetService("RunService").Stepped:Wait()
-
+	while task.wait() do
 		if Flight:GetValue() and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild('HumanoidRootPart') and not Typing then
 			local Primary = LocalPlayer.Character.HumanoidRootPart
 			local Direction = Vector3.new(0, 0, 0)
