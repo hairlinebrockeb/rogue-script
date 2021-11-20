@@ -7,4 +7,5 @@ this is the release of my shitty rogue script that i've been working on for the 
 
 credits to ic3 for the [fly](https://ic3w0lf.xyz/rblx/BetterFly.lua)
 credits to AlexR32 for the [UI](https://github.com/AlexR32/Roblox)
+credits to internal for supplying me w/ ids & stuff
 credits to koro for the trinket esp list
