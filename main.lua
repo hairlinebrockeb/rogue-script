@@ -1513,7 +1513,7 @@ local function checkTrinket(v)
 		end
 	end
 	if RareTrinkets:GetValue() then
-		if (v.ClassName == 'Part' and tostring(gethiddenproperties(v).size) == '0.40000000596046, 0.5, 0.30000001192093') then
+		if (v.ClassName == 'Part' and not Krnl and tostring(gethiddenproperties(v).size) == '0.40000000596046, 0.5, 0.30000001192093') then
 			return 'Opal';
 		elseif (v.ClassName == 'MeshPart' and v.MeshId == 'rbxassetid://5204453430') then
 			return 'Scroll';
