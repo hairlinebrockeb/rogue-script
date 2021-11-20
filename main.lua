@@ -1690,7 +1690,7 @@ local sfps = 0
 local fpsevent = RunService.RenderStepped:Connect(function(fstep)
 	sfps = 1 / fstep
 end)
-wait(0.5)
+wait(1)
 fpsevent:Disconnect()
 if sfps < 70 then
 	local dumbfunc = Instance.new("BindableFunction")
@@ -1712,7 +1712,7 @@ if sfps < 70 then
 	})
 end
 local Zap = Instance.new("Sound")
---Zap.SoundId = "rbxassetid://7554632797"
+Zap.SoundId = "rbxassetid://7554632797"
 Zap.Volume = 10
 Zap.Parent = ProtGui
 Zap.Loaded:wait()
