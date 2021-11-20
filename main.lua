@@ -1687,10 +1687,8 @@ Lighting:GetPropertyChangedSignal("OutdoorAmbient"):Connect(function()
 end)
 
 local sfps = 0
-coroutine.wrap(function() -- testing for krnl
-	local fpsevent = RunService.RenderStepped:Connect(function(fstep)
-		sfps = 1 / fstep
-	end)
+local fpsevent = RunService.RenderStepped:Connect(function(fstep)
+	sfps = 1 / fstep
 end)
 wait(1)
 fpsevent:Disconnect()
