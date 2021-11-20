@@ -1674,6 +1674,7 @@ local BetterLighting = OtherVisuals:CreateToggle("Better Lighting", nil, functio
 		end
 	end
 end)
+
 Lighting:GetPropertyChangedSignal("Ambient"):Connect(function()
 	if WorldAmbience:GetValue() then
 		Lighting.Ambient = InteriorAmbience:GetValue()
@@ -1684,11 +1685,12 @@ Lighting:GetPropertyChangedSignal("OutdoorAmbient"):Connect(function()
 		Lighting.OutdoorAmbient = OutdoorAmbience:GetValue()
 	end
 end)
+
 local sfps = 0
 local fpsevent = RunService.RenderStepped:Connect(function(fstep)
 	sfps = 1 / fstep
 end)
-wait(1)
+wait(0.5)
 fpsevent:Disconnect()
 if sfps < 70 then
 	local dumbfunc = Instance.new("BindableFunction")
@@ -1710,7 +1712,7 @@ if sfps < 70 then
 	})
 end
 local Zap = Instance.new("Sound")
-Zap.SoundId = "rbxassetid://7554632797"
+--Zap.SoundId = "rbxassetid://7554632797"
 Zap.Volume = 10
 Zap.Parent = ProtGui
 Zap.Loaded:wait()
@@ -1776,7 +1778,7 @@ coroutine.wrap(function()
 				Direction = Direction * 0.5;
 			end
 
-			Direction = Direction * (FlightSpeed:GetValue() / 5);
+			Direction = Direction * (FlightSpeed:GetValue() / 2);
 			Primary.Velocity = Vector3.new(0,0,0);
 			Primary.RotVelocity = Vector3.new(0,0,0);
 
