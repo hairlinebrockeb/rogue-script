@@ -1,4 +1,3 @@
-repeat wait() until game:GetService('Players').LocalPlayer
 repeat wait() until game:GetService('Players').LocalPlayer.Character
 
 local ModList = loadstring(game:HttpGet(('https://raw.githubusercontent.com/kanenr/rogue-script/master/modlist.lua'),true))()
@@ -135,7 +134,7 @@ end
 
 function Library:CreateWindow(Config, Parent)
 	local WindowInit = {}
-	local Folder = game:GetObjects("rbxassetid://7902159539")[1]
+	local Folder = game:GetObjects("rbxassetid://8046403488")[1]
 	local Screen = Folder.Bracket:Clone()
 	local Main = Screen.Main
 	local Holder = Main.Holder
