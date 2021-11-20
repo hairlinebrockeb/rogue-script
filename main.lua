@@ -1,4 +1,9 @@
+repeat wait() until game:IsLoaded()
 repeat wait() until game:GetService('Players').LocalPlayer.Character
+
+for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
+   v:Disable() -- just incase ur not using syn lol
+end
 
 local ModList = loadstring(game:HttpGet(('https://raw.githubusercontent.com/kanenr/rogue-script/master/modlist.lua'),true))()
 local PerfPing = game:GetService'Stats':WaitForChild'PerformanceStats':WaitForChild'Ping'
@@ -20,6 +25,7 @@ if syn then
 	syn.protect_gui(CoreGui.RobloxGui.NotificationFrame)
 	ProtGui.Parent = CoreGui
 elseif gethui then
+	ProtGui.Name =  HttpService:GenerateGUID(false) -- bcuz sw-m gethui "exists"
 	ProtGui.Parent = gethui()
 else
 	ProtGui.Name =  HttpService:GenerateGUID(false)
@@ -1872,7 +1878,7 @@ local WalkspeedToggle = OtherMovement:CreateToggle("Walkspeed", nil, function(x)
 	end
 end)
 
-local WalkspeedValue = OtherMovement:CreateSlider("Bonus Speed", 0, 50, nil, true, function(x)
+local WalkspeedValue = OtherMovement:CreateSlider("Bonus Speed", 0, 60, nil, true, function(x)
 	menusettings.WalkspeedValue = x
 	if x and SpeedObject and WalkspeedToggle:GetValue() then
 		SpeedObject.Value = x
