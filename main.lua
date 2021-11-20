@@ -1,3 +1,4 @@
+repeat wait() until game:GetService('Players').LocalPlayer
 repeat wait() until game:GetService('Players').LocalPlayer.Character
 
 local ModList = loadstring(game:HttpGet(('https://raw.githubusercontent.com/kanenr/rogue-script/master/modlist.lua'),true))()
@@ -983,7 +984,7 @@ local menusettings = {
 	AutoBard = false,
 	AutoTrainClimb = false,
 	AutoTrainMana = false,
-	AntiDebuff = false,
+	AntiKillbricks = false,
 	PickUpIngredients = false,
 	IngredientDelay = 7,
 
@@ -1131,6 +1132,45 @@ coroutine.wrap(function()
 		end
 	end
 end)()
+
+local RealKill = {}
+local FakeKill = {}
+local KillNames = {
+    ["ArdorianKillbrick"] = true,
+    ["PitKillBrick"] = true,
+    ["SpectralFire"] = true,
+    ["PoisonField"] = true,
+    ["CryptKiller"] = true,
+    ["KillFire"] = true,
+	["Lava"] = true,
+};
+
+for i,v in pairs(game:GetService('Workspace').Map:GetChildren()) do 
+	if (v:IsA('BasePart') and KillNames[v.Name]) then
+		table.insert(FakeKill, v:Clone())
+		table.insert(RealKill, v)
+	end;
+end;
+
+local AntiKillbricks = GeneralOther:CreateToggle("Anti-Killbricks", nil, function(x) 
+	menusettings.AntiKillbricks = x 
+	if x then
+		for i,v in pairs(FakeKill) do 
+			v.Parent = workspace.Map
+		end
+		for i,v in pairs(RealKill) do    
+			v.Parent = nil           
+		end
+	elseif not x then
+		for i,v in pairs(RealKill) do 
+			v.Parent = workspace.Map
+		end
+		for i,v in pairs(FakeKill) do 
+			v.Parent = nil
+		end
+	end
+end)
+
 local AntiDebuff = GeneralOther:CreateToggle("Anti Debuff", nil, function(x) 
 	menusettings.AntiDebuff = x 
 	if x and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Boosts") then
@@ -1439,7 +1479,7 @@ local Artifacts = TrinketESP:CreateToggle("Show Artifacts", nil, function(x)
 	menusettings.Artifacts = x
 end)
 local function checkTrinket(v)
-	if CommonTrinkets:GetValue() then
+	if CommonTrinkets:GetValue() then -- MASSIVE THANKS TO KORO 
 		if (v.ClassName == 'UnionOperation' and getspecialinfo(v).AssetId == 'https://www.roblox.com//asset/?id=2765613127') then
 			return 'Idol of the Forgotten';
 		elseif (v.ClassName == 'MeshPart' and v.MeshId == 'rbxassetid://5196782997') then
@@ -1683,7 +1723,7 @@ local FlightBypassOne = FlightSection:CreateToggle("Fly Semi-Bypass", nil, funct
 		VIM:SendKeyEvent(false, "Q", false, game)
 	end
 end)
-local FlightSpeed = FlightSection:CreateSlider("Flight Speed", 1, 5, nil, true, function(x)
+local FlightSpeed = FlightSection:CreateSlider("Flight Speed", 1, 6, nil, true, function(x)
 	menusettings.FlightSpeed = x
 end)
 FlightSpeed:SetState(3)
@@ -1981,6 +2021,7 @@ local LoadSettings = ScriptSettings:CreateButton("Load Settings", function()
 	AutoBard:SetState(bsettings.AutoBard)
 	AutoTrainClimb:SetState(bsettings.AutoTrainClimb)
 	AutoTrainMana:SetState(bsettings.AutoTrainMana)
+	AntiKillbricks:SetState(bsettings.AntiKillbricks)
 	AntiDebuff:SetState(bsettings.AntiDebuff)
 	PickUpIngredients:SetState(bsettings.PickUpIngredients)
 	IngredientDelay:SetState(bsettings.IngredientDelay)
