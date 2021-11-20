@@ -1,4 +1,4 @@
--- thank you internal for stealing this mod list for me
+-- big thanks to internal & maku
 modlist = {
 [68974314] = true;
 [59158571] = true;
