@@ -1666,7 +1666,7 @@ local OutdoorAmbience = OtherVisuals:CreateColorpicker("Outdoor Ambience", funct
 end)
 local BetterLighting = OtherVisuals:CreateToggle("Better Lighting", nil, function(Value)
 	menusettings.BetterLighting = Value
-	if HIGHFPS then
+	if HIGHFPS and not Krnl then
 		if Value then
 			sethiddenproperty(Lighting, "Technology", 4)
 		else
@@ -1695,10 +1695,10 @@ fpsevent:Disconnect()
 if sfps < 70 then
 	local dumbfunc = Instance.new("BindableFunction")
 	dumbfunc.OnInvoke = function(args)
-		if args == "Yes" then
+		if args == "Yes" and not Krnl then
 			HIGHFPS = false
 			sethiddenproperty(Lighting, "Technology", 2)
-			sethiddenproperty(workspace.Terrain, "Decoration", false)
+			sethiddenproperty(workspace.Terrain, "Decoration", false) -- does this do anything? who knows
 			BetterLighting:AddToolTip("Disabled due to Optimization")
 		end
 	end
