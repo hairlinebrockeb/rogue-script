@@ -1022,7 +1022,6 @@ local menusettings = {
 	FlightFollowMouse = false,
 	DisableFlyFall = false,
 	FlightBypassOne = false,
-	FlightBypassTwo = false,
 	FlightSpeed = 3,
 	WalkspeedToggle = false,
 	WalkspeedValue = false,
@@ -1674,8 +1673,8 @@ end)
 local DisableFlyFall = FlightSection:CreateToggle("Disable Fly Fall", nil, function(x)
 	menusettings.DisableFlyFall = x
 end)
-local FlightBypassOne = FlightSection:CreateToggle("Fly Bypass #1", nil, function(x)
-	menusettings.FlightBypassOne = x -- no longer works, but 
+local FlightBypassOne = FlightSection:CreateToggle("Fly Semi-Bypass", nil, function(x)
+	menusettings.FlightBypassOne = x -- doesn't work anymore, psure it doesnt do anything but keeping here lol
 	if x then
 		VIM:SendKeyEvent(true, "S", false, game)
 		wait()
@@ -1684,9 +1683,6 @@ local FlightBypassOne = FlightSection:CreateToggle("Fly Bypass #1", nil, functio
 		wait()
 		VIM:SendKeyEvent(false, "Q", false, game)
 	end
-end)
-local FlightBypassTwo = FlightSection:CreateToggle("Fly Bypass #2", nil, function(x)
-	menusettings.FlightBypassTwo = x -- removed the code for this
 end)
 local FlightSpeed = FlightSection:CreateSlider("Flight Speed", 1, 5, nil, true, function(x)
 	menusettings.FlightSpeed = x
@@ -2023,7 +2019,6 @@ local LoadSettings = ScriptSettings:CreateButton("Load Settings", function()
 	FlightFollowMouse:SetState(bsettings.FlightFollowMouse)
 	DisableFlyFall:SetState(bsettings.DisableFlyFall)
 	FlightBypassOne:SetState(bsettings.FlightBypassOne)
-	FlightBypassTwo:SetState(bsettings.FlightBypassTwo)
 	FlightSpeed:SetState(bsettings.FlightSpeed)
 
 	-- Other
