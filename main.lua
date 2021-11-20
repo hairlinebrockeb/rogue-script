@@ -1,4 +1,3 @@
-repeat wait() until game:GetService('Players').LocalPlayer
 repeat wait() until game:GetService('Players').LocalPlayer.Character
 
 local ModList = loadstring(game:HttpGet(('https://raw.githubusercontent.com/kanenr/rogue-script/master/modlist.lua'),true))()
