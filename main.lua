@@ -985,6 +985,7 @@ local PlayerESP = Visuals:CreateSection("Player ESP")
 local TrinketESP = Visuals:CreateSection("Trinket ESP")
 local SensoryVisuals = Visuals:CreateSection("Helping Visuals")
 local OtherVisuals = Visuals:CreateSection("Visual Effects")
+local OreVisuals = Visuals:CreateSection("Ore ESP")
 
 -- Movement
 local FlightSection = Movement:CreateSection("Flight")
@@ -1022,6 +1023,14 @@ local menusettings = {
 	CommonTrinkets = false,
 	RareTrinkets = false,
 	Artifacts = false,
+	OreESP = false,
+	OreESPSize = 12,
+	OreESPDelay = 20,
+	ShowOreDistance = false,
+	MythrilESP = false,
+	IronESP = false,
+	CopperESP = false,
+	TinESP = false,
 
 	--Sensory
 	SigmaMan = false,
@@ -1552,6 +1561,8 @@ local function checkTrinket(v)
 	end
 	return nil;
 end;
+
+
 CreateTrinketESP = function(Part)
 	local TrinketName = checkTrinket(Part)
 	if Part and Part:FindFirstChild("ID") and TrinketName and TrinketESPToggle:GetValue() then
@@ -1711,6 +1722,133 @@ if sfps < 70 then
 		Button2 = "No"
 	})
 end
+
+local OreESPFolder = Instance.new("Folder")
+OreESPFolder.Parent = ProtGui
+local CreateOreESP = function()
+end
+
+local OreESP = OreVisuals:CreateToggle("Ore ESP", nil, function(x)
+	menusettings.OreESP = x
+	for i, v in next, OreESPFolder:GetChildren() do
+		v:Destroy()
+	end
+	if x then
+		for i, v in next, workspace.Ores:GetChildren() do
+			CreateOreESP(v)
+		end
+	end
+end)
+
+local orerefresh = function()
+	for i, v in next, OreESPFolder:GetChildren() do
+		v:Destroy()
+	end
+	if OreESP:GetValue() then
+		for i, v in next, workspace.Ores:GetChildren() do
+			CreateOreESP(v)
+		end
+	end
+end
+
+local OreESPSize = OreVisuals:CreateSlider("Ore ESP Size", 8, 25, nil, true, function(x)
+	menusettings.OreESPSize = x
+end)
+OreESPSize:SetState(12)
+
+local OreESPDelay = OreVisuals:CreateSlider("Ore ESP Delay", 1, 70, nil, true, function(x)
+	menusettings.OreESPDelay = x
+end)
+OreESPDelay:SetState(20)
+
+local ShowOreDistance = OreVisuals:CreateToggle("Show Ore Distance", nil, function(x)
+	menusettings.ShowOreDistance = x
+end)
+
+local MythrilESP = OreVisuals:CreateToggle("Mythril ESP", nil, function(x)
+	menusettings.MythrilESP = x
+	orerefresh()
+end)
+local IronESP = OreVisuals:CreateToggle("Iron ESP", nil, function(x)
+	menusettings.IronESP = x
+	orerefresh()
+end)
+local CopperESP = OreVisuals:CreateToggle("Copper ESP", nil, function(x)
+	menusettings.CopperESP = x
+	orerefresh()
+end)
+local TinESP = OreVisuals:CreateToggle("Tin ESP", nil, function(x)
+	menusettings.TinESP = x
+	orerefresh()
+end)
+
+CreateOreESP = function(Part)
+	if Part and OreESP:GetValue() then
+		if Part.Name == "Mythril" and not MythrilESP:GetValue() then
+			return
+		end
+		if Part.Name == "Iron" and not IronESP:GetValue() then
+			return
+		end
+		if Part.Name == "Copper" and not CopperESP:GetValue() then
+			return
+		end
+		if Part.Name == "Tin" and not TinESP:GetValue() then
+			return
+		end
+		local billboard = Instance.new("BillboardGui")
+		billboard.StudsOffset = Vector3.new(0, 0.75, 0)
+		billboard.Size = UDim2.new(0, 200, 0, 50)
+		billboard.AlwaysOnTop = true
+		billboard.Parent = OreESPFolder
+		billboard.Adornee = Part
+		local textlabel = Instance.new("TextLabel")
+		textlabel.TextColor3 = Part.Color
+		textlabel.Size = UDim2.new(0, 200, 0, 50)
+		textlabel.TextStrokeTransparency = 0.6
+		textlabel.BackgroundTransparency = 1
+		textlabel.Text = Part.Name
+		textlabel.Parent = billboard
+		textlabel.TextScaled = false
+		textlabel.TextSize = OreESPSize:GetValue()
+		local colorlabel = Instance.new("TextLabel")
+		colorlabel.TextColor3 = Color3.new(152, 152, 152)
+		colorlabel.Size = UDim2.new(0, 200, 0, 50)
+		colorlabel.TextStrokeTransparency = 0.6
+		colorlabel.BackgroundTransparency = 1
+		colorlabel.TextScaled = false
+		colorlabel.Parent = billboard
+		colorlabel.TextSize = (OreESPSize:GetValue() - 2)
+		if ShowOreDistance:GetValue() then
+			local distance = math.floor((Camera.CFrame.p - Part.CFrame.p).Magnitude)
+			colorlabel.Text = colorlabel.Text .. "[" .. tonumber(distance) .. "]"
+		end
+		coroutine.wrap(function()
+			while wait(OreESPDelay:GetValue() / 75) do
+				if billboard and Part then
+					textlabel.TextSize = OreESPSize:GetValue()
+					colorlabel.TextSize = (OreESPSize:GetValue() - 2)
+					colorlabel.Text = "\n \n \n "
+					if Part.Transparency ~= 0 then
+						billboard.Enabled = false
+					else
+						billboard.Enabled = true
+					end
+					if ShowOreDistance:GetValue() then
+						local distance = math.floor((Camera.CFrame.p - Part.CFrame.p).Magnitude)
+						colorlabel.Text = colorlabel.Text .. "[" .. tonumber(distance) .. "]"
+					end
+				else
+					if billboard then
+						billboard:Destroy()
+					end
+					break
+				end
+			end
+		end)()
+	end
+end
+
 local Zap = Instance.new("Sound")
 Zap.SoundId = "rbxassetid://7554632797"
 Zap.Volume = 10
@@ -2060,6 +2198,14 @@ local LoadSettings = ScriptSettings:CreateButton("Load Settings", function()
 	CommonTrinkets:SetState(bsettings.CommonTrinkets)
 	RareTrinkets:SetState(bsettings.RareTrinkets)
 	Artifacts:SetState(bsettings.Artifacts)
+	OreESP:SetState(bsettings.OreESP)
+	--OreESPSize:SetState(bsettings.OreESPSize)
+	OreESPDelay:SetState(bsettings.OreESPDelay)
+	ShowOreDistance:SetState(bsettings.ShowOreDistance)
+	MythrilESP:SetState(bsettings.MythrilESP)
+	IronESP:SetState(bsettings.IronESP)
+	CopperESP:SetState(bsettings.CopperESP)
+	TinESP:SetState(bsettings.TinESP)
 
 	--Sensory
 	SigmaMan:SetState(bsettings.SigmaMan)
