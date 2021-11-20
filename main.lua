@@ -31,6 +31,7 @@ else
 	ProtGui.Name =  HttpService:GenerateGUID(false)
 	ChatlogsBracket.Parent = CoreGui
 end
+
 local Typing = false
 local Config = {
 	WindowName = "kanner's rogue cheat",
@@ -135,7 +136,7 @@ local function MakeDraggable(ClickObject, Object)
 	end)
 end
 
-function Library:CreateWindow(Config, Parent)
+function Library:CreateWindow(Config)
 	local WindowInit = {}
 	local Folder = game:GetObjects("rbxassetid://8046403488")[1]
 	local Screen = Folder.Bracket:Clone()
@@ -147,17 +148,18 @@ function Library:CreateWindow(Config, Parent)
 	Holder.TileSize = UDim2.new(0.5, 0, 0.5, 0)
 	Holder.Image = "rbxassetid://2151741365"
 	Holder.ImageTransparency = 0
+
 	if syn then
 		syn.protect_gui(Screen)
-		Screen.Parent = Parent
+		Screen.Parent = CoreGui
 	elseif gethui then
+		Screen.Name =  HttpService:GenerateGUID(false) -- bcuz sw-m gethui "exists"
 		Screen.Parent = gethui()
 	else
-		Screen.Parent = Parent
+		Screen.Name =  HttpService:GenerateGUID(false)
+		Screen.Parent = CoreGui
 	end
 	
-	Screen.Name =  HttpService:GenerateGUID(false)
-	Screen.Parent = Parent
 	Topbar.WindowName.Text = Config.WindowName
 
 	MakeDraggable(Topbar, Main)
@@ -952,7 +954,7 @@ function Library:CreateChatLogs()
 	return ChatInit
 end
 
-local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
+local Window = Library:CreateWindow(Config)
 local PChatlogs = Library:CreateChatLogs()
 
 local General = Window:CreateTab("General")
@@ -1079,6 +1081,10 @@ local AntiFire = Generic:CreateToggle("Anti Fire", nil, function(x)
 	menusettings.AntiFire = x
 end)
 local AutoBard = Generic:CreateToggle("Auto Bard", nil, function(x)
+	if not firesignal and x then 
+		Alert("EXPLOIT NOT SUPPORTED", "Your exploit does not have the capabilities to use firesignal") 
+		x = false
+	end
 	menusettings.AutoBard = x
 end)
 repeat wait() until LocalPlayer.PlayerGui:FindFirstChild('BardGui')
@@ -1408,12 +1414,9 @@ Players.PlayerAdded:Connect(function(Player)
 		end
 	end)
 end)
-Players.PlayerRemoving:Connect(function(player)
+Players.PlayerRemoving:Connect(function(player) -- doesn't work iirc but whatever
 	for i, v in next, CoreGui.RobloxGui.NotificationFrame:GetDescendants() do
-		if v and player and v.Name == "NotificationText" and string.match(v.Text, player.Name) and v.Parent:FindFirstChild('Button1') then
-			firesignal(v.Parent.Button1.MouseButton1Down)
-			wait()
-			firesignal(v.Parent.Button1.MouseButton1Up)
+		if v and player and v.Name == "NotificationText" and string.match(v.Text, player.Name) and v.Parent:FindFirstChild('Button1') and firesignal then
 			firesignal(v.Parent.Button1.MouseButton1Click)
 		end
 	end
