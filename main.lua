@@ -21,7 +21,6 @@ local Camera = workspace.CurrentCamera
 local ProtGui = Instance.new("ScreenGui")
 
 if syn or (identifyexecutor and identifyexecutor() == "ScriptWare") then
-	rconsoleprint('a')
 	local OldFindcall -- i hate you bluwu (sorry)
 	OldFindcall = hookmetamethod(game, "__namecall", function(...)
 		local Args = {...}
