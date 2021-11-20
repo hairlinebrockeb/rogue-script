@@ -6,6 +6,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService('UserInputService')
 local TweenService = game:GetService('TweenService')
 local VIM = game:GetService('VirtualInputManager')
+local HttpService = game:GetService("HttpService")
 local RunService = game:GetService('RunService')
 local Lighting = game:GetService('Lighting')
 local Players = game:GetService('Players')
@@ -21,6 +22,7 @@ if syn then
 elseif gethui then
 	ProtGui.Parent = gethui()
 else
+	ProtGui.Name =  HttpService:GenerateGUID(false)
 	ChatlogsBracket.Parent = CoreGui
 end
 local Typing = false
@@ -92,11 +94,6 @@ local Library = {
 	TabCount = 0,
 	ColorTable = {}
 }
-
-local RunService = game:GetService("RunService")
-local HttpService = game:GetService("HttpService")
-local TweenService = game:GetService("TweenService")
-local UserInputService = game:GetService("UserInputService")
 
 local function MakeDraggable(ClickObject, Object)
 	local Dragging = nil
@@ -1722,7 +1719,7 @@ local FlightBypassOne = FlightSection:CreateToggle("Fly Semi-Bypass", nil, funct
 		VIM:SendKeyEvent(false, "Q", false, game)
 	end
 end)
-local FlightSpeed = FlightSection:CreateSlider("Flight Speed", 1, 6, nil, true, function(x)
+local FlightSpeed = FlightSection:CreateSlider("Flight Speed", 1, 7, nil, true, function(x)
 	menusettings.FlightSpeed = x
 end)
 FlightSpeed:SetState(3)
@@ -1818,7 +1815,7 @@ Players.PlayerAdded:Connect(function(Player)
 	end)
 end)
 
-local AntiFall = OtherMovement:CreateToggle("Anti-Fall", nil, function(x)
+local AntiFall = OtherMovement:CreateToggle("Anti Fall Damage", nil, function(x)
 	menusettings.AntiFall = x
 end)
 AntiFall:CreateKeybind("NONE", function()
@@ -2078,7 +2075,7 @@ local MakeSpeedObj = function()
 	if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Boosts") then
 		SpeedObject = Instance.new("IntValue")
 		SpeedObject.Name = "SpeedBoost"
-		SpeedObject.Value = 0
+		SpeedObject.Value = WalkspeedValue:GetValue()
 		SpeedObject.Parent = game.Players.LocalPlayer.Character.Boosts
 	end
 end
@@ -2166,7 +2163,7 @@ UserInputService.InputBegan:connect(function(Input, proccessed)
 		if selectedLabel then
 			local selectedName = ""
 			selectedName = string.sub(selectedLabel.Text, 1, 2) .. string.sub(selectedLabel.Text, 6, #selectedLabel.Text)
-			if game.Players:FindFirstChild(selectedName) ~= nil and game.Players:FindFirstChild(selectedName).Character ~= nil and game.Players:FindFirstChild(selectedName).Character.Humanoid ~= nil then
+			if game.Players:FindFirstChild(selectedName) and game.Players:FindFirstChild(selectedName).Character and game.Players:FindFirstChild(selectedName).Character:FindFirstChild("Humanoid") then
 				workspace.CurrentCamera.CameraSubject = game.Players:FindFirstChild(selectedName).Character.Humanoid
 			end
 		else
