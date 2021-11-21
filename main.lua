@@ -2310,6 +2310,22 @@ local InstantLog = ScriptSettings:CreateButton("Instant Log", function()
 	end)()
 end)
 
+local CastleRockLabel = ScriptSettings:CreateLabel("Castle Rock Last Looted: ")
+local castlerockTime = workspace.MonsterSpawns.Triggers.CastleRockSnake:FindFirstChild("LastSpawned")
+
+local SunkenLabel = ScriptSettings:CreateLabel("Sunken Last Looted: ")
+local sunkenTime = workspace.MonsterSpawns.Triggers.evileye1:FindFirstChild("LastSpawned")
+
+spawn(function()
+	while wait(5) do -- lazy
+		local castledelta = os.time() - castlerockTime.Value
+		local sunkendelta = os.time() - sunkenTime.Value
+
+		CastleRockLabel:UpdateText("Castle Rock Last Looted: " .. tostring(math.floor(castledelta / 60)) .. "m")
+		SunkenLabel:UpdateText("Sunken Last Looted: " .. tostring(math.floor(sunkendelta / 60)) .. "m")
+	end
+end)
+
 local selectedLabel
 local selectedName
 UserInputService.InputBegan:connect(function(Input, proccessed)
