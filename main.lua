@@ -2004,9 +2004,7 @@ end)
 
 SpiderMode:CreateKeybind("NONE", function() end)
 
-local SpiderSpeed = OtherMovement:CreateSlider("Spider Speed", 1, 8, nil, true, function(x)
-	--menusettings.WalkspeedValue = x
-end)
+local SpiderSpeed = OtherMovement:CreateSlider("Spider Speed", 1, 8, nil, true, function(x) end)
 SpiderSpeed:SetState(0)
 
 spawn(function()
@@ -2031,6 +2029,8 @@ local WalkspeedToggle = OtherMovement:CreateToggle("Walkspeed", nil, function(x)
 		SpeedObject.Parent = nil
 	end
 end)
+WalkspeedToggle:CreateKeybind("NONE", function() end)
+
 
 local WalkspeedValue = OtherMovement:CreateSlider("Bonus Speed", 0, 60, nil, true, function(x)
 	menusettings.WalkspeedValue = x
@@ -2312,12 +2312,14 @@ end)
 
 local CastleRockLabel = ScriptSettings:CreateLabel("Castle Rock Last Looted: ")
 local castlerockTime = workspace.MonsterSpawns.Triggers.CastleRockSnake:FindFirstChild("LastSpawned")
+CastleRockLabel:UpdateText("Castle Rock Last Looted: " .. tostring(math.floor((os.time() - castlerockTime.Value) / 60)) .. "m")
 
 local SunkenLabel = ScriptSettings:CreateLabel("Sunken Last Looted: ")
 local sunkenTime = workspace.MonsterSpawns.Triggers.evileye1:FindFirstChild("LastSpawned")
+SunkenLabel:UpdateText("Sunken Last Looted: " .. tostring(math.floor((os.time() - sunkenTime.Value) / 60)) .. "m")
 
 spawn(function()
-	while wait(5) do -- lazy
+	while wait(5) do
 		local castledelta = os.time() - castlerockTime.Value
 		local sunkendelta = os.time() - sunkenTime.Value
 
