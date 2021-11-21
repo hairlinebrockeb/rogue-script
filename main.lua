@@ -8,7 +8,7 @@ end
 if game.PlaceId ~= 5208655184 then
 	local NotiFunc = Instance.new("BindableFunction")
 	NotiFunc.OnInvoke = function(t)
-		if t == "Join Gaia" then
+		if t == "Join" then
 			game:GetService'TeleportService':Teleport(3016661674)
 		end
 	end
