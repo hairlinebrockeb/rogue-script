@@ -1881,7 +1881,7 @@ local FlightBypassOne = FlightSection:CreateToggle("Fly Semi-Bypass", nil, funct
 		VIM:SendKeyEvent(false, "Q", false, game)
 	end
 end)
-local FlightSpeed = FlightSection:CreateSlider("Flight Speed", 1, 7, nil, true, function(x)
+local FlightSpeed = FlightSection:CreateSlider("Flight Speed", 1, 5, nil, true, function(x)
 	menusettings.FlightSpeed = x
 end)
 FlightSpeed:SetState(3)
