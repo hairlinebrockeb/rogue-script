@@ -5,6 +5,24 @@ for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
    v:Disable() -- just incase ur not using syn lol
 end
 
+if game.PlaceId ~= 5208655184 then
+	local NotiFunc = Instance.new("BindableFunction")
+	NotiFunc.OnInvoke = function(t)
+		if t == "Join Gaia" then
+			game:GetService'TeleportService':Teleport(3016661674)
+		end
+	end
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "Game Error";
+		Text = "This script is only meant for Rogue Lineage's Gaia.";
+		Duration = 9e9;
+		Button1 = "Join";
+		Button2 = "Ignore";
+		Callback = NotiFunc;
+	})
+	wait(9e9) -- just doing this so people don't execute in khei or a ps (they grab & use remotes differently, also the script would error so fucking hard)
+end
+
 local ModList = loadstring(game:HttpGet(('https://raw.githubusercontent.com/kanenr/rogue-script/master/modlist.lua'),true))()
 local PerfPing = game:GetService'Stats':WaitForChild'PerformanceStats':WaitForChild'Ping'
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
