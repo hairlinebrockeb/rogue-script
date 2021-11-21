@@ -2406,7 +2406,7 @@ ModSound.Parent = ProtGui
 ModSound.Loaded:wait()
 
 for i, player in pairs (Players:GetPlayers()) do
-	if player and not player == LocalPlayer then
+	if player and player ~= LocalPlayer then
 		if modlist[player.UserId] then
 			Alert('MOD DETECTED', player.Name .. ' IS A MOD!')
 			Flight:SetState(false)
