@@ -1239,7 +1239,7 @@ TrinketDelay:SetState(7)
 
 coroutine.wrap(function()
 	while wait((TrinketDelay:GetValue()) / 10) do
-		if PickUpTrinkets:GetValue() and LocalPlayer.Character then -- ik multiple if statements cancer, but i dont want to go through workspace
+		if PickUpTrinkets:GetValue() and LocalPlayer.Character and fireclickdetector then -- ik multiple if statements cancer, but i dont want to go through workspace
 			for i, v in pairs(workspace:GetChildren()) do
 				if LocalPlayer.Character.PrimaryPart and v.Name == 'Part' and v:FindFirstChild('ID') and (v:FindFirstChild("Part") and v.Part:FindFirstChild("ClickDetector")) and (LocalPlayer.Character.PrimaryPart.Position - v.Position).Magnitude < 9 then
 					fireclickdetector(v.Part:FindFirstChild("ClickDetector")); -- this entire thing is way too long, will shorten it later
@@ -1257,7 +1257,7 @@ IngredientDelay:SetState(7)
 
 coroutine.wrap(function()
 	while wait((IngredientDelay:GetValue()) / 10) do
-		if IngredientFolder and PickUpIngredients:GetValue() then
+		if IngredientFolder and PickUpIngredients:GetValue() and fireclickdetector then
 			for i, v in pairs(IngredientFolder:GetChildren()) do
 				if LocalPlayer.Character and LocalPlayer.Character.PrimaryPart and v:IsA('UnionOperation') and v:FindFirstChild('ClickDetector') and v.Color ~= Color3.fromRGB(100, 255, 100) and v.Transparency == 0 then
 					if (LocalPlayer.Character.PrimaryPart.Position - v.Position).Magnitude < 9 then
