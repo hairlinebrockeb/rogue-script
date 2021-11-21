@@ -4,6 +4,7 @@
 this is the release of my shitty rogue script that i've been working on for the past 2 weeks, i just don't want to maintain it anymore so i'm releasing it here.
 - Open Source
 - 40+ Features
+- The best rogue script around lol
 
 credits to ic3 for the [fly](https://ic3w0lf.xyz/rblx/BetterFly.lua)
 
