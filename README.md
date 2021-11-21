@@ -13,3 +13,6 @@ credits to AlexR32 for the [UI](https://github.com/AlexR32/Roblox)
 credits to internal for supplying me w/ ids & stuff
 
 credits to koro for the trinket esp list
+
+ik the rogue communit wont donate but here's my btc link
+- bc1qpewn9xpfpdeswxk8wqt0gzqz25p9ptj300u98wvplwkksep8x4lql0jjg9
