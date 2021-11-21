@@ -1021,6 +1021,8 @@ local menusettings = {
 	AutoTrainClimb = false,
 	AutoTrainMana = false,
 	AntiKillbricks = false,
+	PickUpTrinkets = false,
+	TrinketDelay = 7,
 	PickUpIngredients = false,
 	IngredientDelay = 7,
 
@@ -1229,8 +1231,25 @@ local AntiDebuff = GeneralOther:CreateToggle("Anti Debuff", nil, function(x)
 	end
 end)
 
-local PickUpIngredients = GeneralOther:CreateToggle("Auto Grab Ingredients", nil, function(x) menusettings.PickUpIngredients = x end)
+local PickUpTrinkets = GeneralOther:CreateToggle("Auto Grab Trinkets", nil, function(x) menusettings.PickUpTrinkets = x end)
+local TrinketDelay = GeneralOther:CreateSlider("Trinket Delay", 1, 15, nil, true, function(x)
+	menusettings.TrinketDelay = x
+end)
+TrinketDelay:SetState(7)
 
+coroutine.wrap(function()
+	while wait((TrinketDelay:GetValue()) / 10) do
+		if PickUpTrinkets:GetValue() and LocalPlayer.Character then -- ik multiple if statements cancer, but i dont want to go through workspace
+			for i, v in pairs(workspace:GetChildren()) do
+				if LocalPlayer.Character.PrimaryPart and v.Name == 'Part' and v:FindFirstChild('ID') and (v:FindFirstChild("Part") and v.Part:FindFirstChild("ClickDetector")) and (LocalPlayer.Character.PrimaryPart.Position - v.Position).Magnitude < 9 then
+					fireclickdetector(v.Part:FindFirstChild("ClickDetector")); -- this entire thing is way too long, will shorten it later
+				end
+			end
+		end
+	end
+end)()
+
+local PickUpIngredients = GeneralOther:CreateToggle("Auto Grab Ingredients", nil, function(x) menusettings.PickUpIngredients = x end)
 local IngredientDelay = GeneralOther:CreateSlider("Ingredient Delay", 1, 15, nil, true, function(x)
 	menusettings.IngredientDelay = x
 end)
@@ -1238,9 +1257,9 @@ IngredientDelay:SetState(7)
 
 coroutine.wrap(function()
 	while wait((IngredientDelay:GetValue()) / 10) do
-		if IngredientFolder then
+		if IngredientFolder and PickUpIngredients:GetValue() then
 			for i, v in pairs(IngredientFolder:GetChildren()) do
-				if PickUpIngredients:GetValue() and LocalPlayer.Character and LocalPlayer.Character.PrimaryPart and v:IsA('UnionOperation') and v:FindFirstChild('ClickDetector') and v.Color ~= Color3.fromRGB(100, 255, 100) and v.Transparency == 0 then
+				if LocalPlayer.Character and LocalPlayer.Character.PrimaryPart and v:IsA('UnionOperation') and v:FindFirstChild('ClickDetector') and v.Color ~= Color3.fromRGB(100, 255, 100) and v.Transparency == 0 then
 					if (LocalPlayer.Character.PrimaryPart.Position - v.Position).Magnitude < 9 then
 						fireclickdetector(v:FindFirstChild("ClickDetector"));
 					end
