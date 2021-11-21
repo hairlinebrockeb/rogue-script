@@ -1105,14 +1105,13 @@ end)
 local AutoBard = Generic:CreateToggle("Auto Bard", nil, function(x)
 	if not firesignal and x then 
 		Alert("EXPLOIT NOT SUPPORTED", "Your exploit does not have the capabilities to use firesignal") 
-		x = false
 	end
 	menusettings.AutoBard = x
 end)
 repeat wait() until LocalPlayer.PlayerGui:FindFirstChild('BardGui')
 local BardGui = LocalPlayer.PlayerGui:FindFirstChild('BardGui')
 BardGui.ChildAdded:Connect(function(Note)
-	if AutoBard:GetValue() and Note:IsA("ImageButton") then
+	if AutoBard:GetValue() and Note:IsA("ImageButton") and firesignal then
 		wait(.9 + ((math.random(3, 11) / 100)))
 		firesignal(Note.MouseButton1Click)
 	end
@@ -1436,10 +1435,13 @@ Players.PlayerAdded:Connect(function(Player)
 		end
 	end)
 end)
-Players.PlayerRemoving:Connect(function(player) -- doesn't work iirc but whatever
+Players.PlayerRemoving:Connect(function(player) -- finally fixed this lets go
 	for i, v in next, CoreGui.RobloxGui.NotificationFrame:GetDescendants() do
-		if v and player and v.Name == "NotificationText" and string.match(v.Text, player.Name) and v.Parent:FindFirstChild('Button1') and firesignal then
-			firesignal(v.Parent.Button1.MouseButton1Click)
+		if v and player and v.Name == "NotificationText" and string.match(v.Text, player.Name) and v.Parent:FindFirstChild('Button1') then
+			local Button1 = v.Parent.Button1
+			VIM:SendMouseButtonEvent(Button1.AbsolutePosition.X + 10, Button1.AbsolutePosition.Y + 45, 0, true, game, 0)
+			wait(.15)
+			VIM:SendMouseButtonEvent(Button1.AbsolutePosition.X + 10, Button1.AbsolutePosition.Y + 45, 0, false, game, 0)
 		end
 	end
 end)
